@@ -3,7 +3,12 @@
   <div class="col-8 offset-2">
     <br />
     <h3 style="color: #1e2a5e">Edit your listing</h3>
-    <form action="/listings/<%=listing._id%>?_method=PUT" method="post">
+    <form
+      action="/listings/<%=listing._id%>?_method=PUT"
+      method="post"
+      novalidate
+      class="needs-validation"
+    >
       <div class="mb-3">
         <label for="title" class="form-label">Title</label>
         <input
@@ -11,22 +16,26 @@
           class="form-control"
           name="listing[title]"
           value="<%=listing.title%>"
+          required
         />
+        <div class="invalid-feedback">Please add title</div>
       </div>
       <div class="mb-3">
         <label for="desc" class="form-label">Description</label>
-        <textarea name="listing[desc]" class="form-control">
-<%=listing.desc%></textarea
-        >
+        <textarea name="listing[desc]" class="form-control" required>
+          <%=listing.desc%>
+        </textarea>
+        <div class="invalid-feedback">give brief Discription</div>
       </div>
       <div class="mb-3">
         <label for="price" class="form-label">Price</label>
         <input
-          type="number"
           name="listing[price]"
           class="form-control"
           value="<%=listing.price%>"
+          required
         />
+        <div class="invalid-feedback">Enter a valid price</div>
       </div>
       <div class="row">
         <div class="mb-3 col-md-8">
@@ -36,12 +45,20 @@
             name="listing[location]"
             class="form-control"
             value="<%=listing.location%>"
+            required
           />
+          <div class="invalid-feedback">Enter a valid Location</div>
         </div>
         <div class="mb-3 col-md-4">
           <label for="country" class="form-label">Country</label>
-          <input type="text" class="form-control name="listing[country]"
-          value="<%=listing.country%>" />
+          <input
+            type="text"
+            class="form-control"
+            name="listing[country]"
+            value="<%=listing.country%>"
+            required
+          />
+          <div class="invalid-feedback">Enter a Country</div>
         </div>
       </div>
       <div class="mb-3">
@@ -51,10 +68,13 @@
           class="form-control"
           name="listing[img]"
           value="<%=listing.img%>"
+          required
         />
+        <div class="invalid-feedback">Provide image link</div>
       </div>
       <br /><br />
       <button class="btn btn-dark">Edit</button>
     </form>
   </div>
 </div>
+<script src="/js/script.js"></script>

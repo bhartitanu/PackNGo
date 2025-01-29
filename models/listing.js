@@ -10,8 +10,8 @@ const listingSchema= new Schema({
     img:
     { 
         type:String,
-        default:"https://www.pexels.com/photo/concrete-road-between-trees-1563356/",
-        set:(v)=> v===""? "https://www.pexels.com/photo/concrete-road-between-trees-1563356/": v
+        default:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8tstiGqc3KpvMpaHIm01QZuohVnmixq97EQ&s",
+        set:(v)=> v===""? "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8tstiGqc3KpvMpaHIm01QZuohVnmixq97EQ&s": v
     },
     price:Number,
     location:String,
