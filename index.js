@@ -7,6 +7,7 @@ const methodOverride=require("method-override");
 const ejsMate=require("ejs-mate");
 const wrapAsync=require("./utils/wrapAsync.js")
 const ExpressError=require("./utils/ExpressError.js");
+const { listingSchema } =require("./schema.js");
 
 const MONGO_URL="mongodb://127.0.0.1:27017/PackNGo"
 
@@ -29,6 +30,16 @@ app.use(express.static(path.join(__dirname,"/public")));
 app.get("/",(req,res)=>{
     res.send("Working");
 });
+
+const validateListing=(req,res,next)=>{
+    let {error}=listingSchema.validate(req.body);
+        if(error){
+            let errMsg=error.details.map((el)=>el.message).join(",");
+            throw new ExpressError(404,errMsg);
+        }else{
+            next();
+        }
+}
 
 // app.get("/testListing",async (req,res)=>{
 //  let sampleListing=new Listing({
@@ -65,11 +76,12 @@ app.get("/listings/:id",wrapAsync(async(req,res)=>{
 }));
 
 //Create Route
-app.post("/listings", wrapAsync(async (req,res,next)=>{
+app.post("/listings", validateListing ,wrapAsync(async (req,res,next)=>{
         //let {title,decs,img,price,Location,country}=req.body;
-        if(!req.body.listing){
-            throw new ExpressError(404,"Send a valid data ");
-        }
+        // if(!req.body.listing){
+        //     throw new ExpressError(404,"Send a valid data ");
+        // }
+        
         const newlisting=new Listing(req.body.listing);
         await newlisting.save();
         res.redirect("/listings");   
@@ -84,10 +96,7 @@ app.get("/listings/:id/edit",wrapAsync(async(req,res)=>{
 }));
 
 //Update Route
-app.put("/listings/:id",wrapAsync(async(req,res)=>{
-    if(!req.body.listing){
-        throw new ExpressError(404,"Send a valid data ");
-    }
+app.put("/listings/:id",validateListing,wrapAsync(async(req,res)=>{
     let {id} =req.params;
     await Listing.findByIdAndUpdate(id,{...req.body.listing});
     res.redirect(`/listings/${id}`);
@@ -108,8 +117,9 @@ app.all("*",(req,res,next)=>{
 
 //Error handling Middleware
 app.use((err,req,res,next)=>{
-    let{ status=505, msg="Something went wrong" }=err;
-    res.status(status).send(msg);
+    let{ status=505, message="SOMETHING WENT WRONG" } = err;
+    //res.status(status).send(msg);
+res.status(status).render("error.ejs",{message});
 });
 
 app.listen("8080",()=>{

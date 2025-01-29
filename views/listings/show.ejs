@@ -17,13 +17,13 @@
         </p>
       </div>
     </div>
-    <div class="btns offset-3 mb-1">
+    <div class="btns parent-edit-del-btn col-6 offset-3 mb-1">
       <div class="btn btn-secondary edit-btn">
         <a href="/listings/<%=listing._id%>/edit">Edit this listing</a>
       </div>
-      <div class="btn btn-dark Del-btn">
+      <div class="Del-btn">
         <form action="/listings/<%=listing._id%>?_method=DELETE" method="post">
-          Delete
+          <button class="btn btn-dark">Delete</button>
         </form>
       </div>
     </div>

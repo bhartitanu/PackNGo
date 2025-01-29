@@ -98,6 +98,10 @@ footer {
   height: 30vh;
   object-fit: cover;
 }
+.parent-edit-del-btn {
+  display: flex;
+  justify-content: space-between;
+}
 .edit-btn a {
   text-decoration: none;
   color: white;
